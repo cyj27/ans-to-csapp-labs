@@ -7,7 +7,7 @@ This repository documents my learning progress through the classic textbook *Com
 Currently, this repository contains my solutions for the following labs:
 
 * **Data Lab**
-* *(Future labs will be added as I progress.)*
+* **Bomb Lab**
 
 ---
 
@@ -39,3 +39,27 @@ Points  Rating  Errors  Points  Ops     Puzzle
 4       4       0       2       9       floatPower2
 
 Score = 62/62 [36/36 Corr + 26/26 Perf] (139 total operators)
+```
+
+---
+
+## Lab 2: Bomb Lab
+
+**Status:** Completed  
+**Phases Defused:** 6/6 (+ Secret Phase)
+
+### Final Defuse Inputs
+
+Below are the exact inputs that successfully defuse all phases in my bomb instance:
+
+```text
+Border relations with Canada have never been better.
+1 2 4 8 16 32
+1 311
+0 0 DrEvil
+IONEFG
+4 3 2 1 6 5
+22
+```
+
+The last line corresponds to the secret phase input, and it may differ on different machines.
