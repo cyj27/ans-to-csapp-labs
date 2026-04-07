@@ -8,6 +8,7 @@ Currently, this repository contains my solutions for the following labs:
 
 * **Data Lab**
 * **Bomb Lab**
+* **Attack Lab**
 
 ---
 
@@ -63,3 +64,9 @@ IONEFG
 ```
 
 The last line corresponds to the secret phase input, and it may differ on different machines.
+
+---
+
+## Lab 3: Attack Lab
+
+**Status:** Completed  
