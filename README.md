@@ -9,6 +9,7 @@ Currently, this repository contains my solutions for the following labs:
 * **Data Lab**
 * **Bomb Lab**
 * **Attack Lab**
+* **Cache Lab**
 
 ---
 
@@ -70,3 +71,24 @@ The last line corresponds to the secret phase input, and it may differ on differ
 ## Lab 3: Attack Lab
 
 **Status:** Completed  
+
+---
+
+## Lab 4: Cache Lab
+
+**Status:** Completed  
+**Final Score:** 53.0/53  
+
+### Performance and Correctness Results
+
+Below is the summary of the evaluation results:
+
+```text
+Cache Lab summary:
+                        Points   Max pts      Misses
+Csim correctness          27.0        27
+Trans perf 32x32           8.0         8         288
+Trans perf 64x64           8.0         8        1228
+Trans perf 61x67          10.0        10        1993
+          Total points    53.0        53
+```
