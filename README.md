@@ -10,6 +10,7 @@ Currently, this repository contains my solutions for the following labs:
 * **Bomb Lab**
 * **Attack Lab**
 * **Cache Lab**
+* **Shell Lab**
 
 ---
 
@@ -92,3 +93,9 @@ Trans perf 64x64           8.0         8        1228
 Trans perf 61x67          10.0        10        1993
           Total points    53.0        53
 ```
+
+---
+
+## Lab 5: Cache Lab
+
+**Status:** Completed  
