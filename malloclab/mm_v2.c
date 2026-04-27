@@ -45,7 +45,9 @@ team_t team = {
 
 #define WSIZE       4       
 #define DSIZE       8       
-#define CHUNKSIZE  (1<<9)  
+#define INITCHUNKSIZE (1<<6)
+#define CHUNKSIZE (1<<12)
+#define PLACE_THRESHOLD 96
 
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
 
@@ -110,7 +112,7 @@ int mm_init(void)
         free_lists[i] = NULL;
     }    
     //expend the heap
-    if (extend_heap(CHUNKSIZE/WSIZE) == NULL)
+    if (extend_heap(INITCHUNKSIZE/WSIZE) == NULL)
         return -1;
     return 0;
 }
@@ -357,7 +359,7 @@ void *place(void *bp, size_t asize)
     delete_node(bp); 
     
     if ((csize - asize) >= (2 * DSIZE)) { 
-        if (asize >= 32) { 
+        if (asize >= PLACE_THRESHOLD) { 
             PUT(HDRP(bp), PACK3(csize - asize, prev_alloc, 0));
             PUT(FTRP(bp), PACK(csize - asize, 0));
             insert_node(bp);

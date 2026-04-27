@@ -45,7 +45,8 @@ team_t team = {
 
 #define WSIZE       4       
 #define DSIZE       8       
-#define CHUNKSIZE  (1<<9)  
+#define INITCHUNKSIZE (1<<6)
+#define CHUNKSIZE  (1<<12)  
 
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
 
@@ -76,7 +77,8 @@ team_t team = {
 #define SET_SUCC(bp, val) (*(char **)((char *)(bp) + WSIZE) = (char *)(val))
 
 /* pointer to the head of the free list */
-static char *free_lists[10];
+#define NUM_LISTS 16
+static char *free_lists[NUM_LISTS];
 static char *heap_listp;
 static int get_list_idx(size_t size);
 static void *extend_heap(size_t words);
@@ -98,11 +100,11 @@ int mm_init(void)
     PUT(heap_listp + 2*WSIZE, PACK(DSIZE, 1));
     PUT(heap_listp + 3*WSIZE, PACK(0, 1));
     heap_listp += 2*WSIZE;
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < NUM_LISTS; i++){
         free_lists[i] = NULL;
     }    
     //expend the heap
-    if (extend_heap(CHUNKSIZE/WSIZE) == NULL)
+    if (extend_heap(INITCHUNKSIZE/WSIZE) == NULL)
         return -1;
     return 0;
 }
@@ -321,7 +323,7 @@ void delete_node(void *bp)
 void *find_fit(size_t asize)
 {
     int idx = get_list_idx(asize);
-    for(int i = idx; i < 10; i++){
+    for(int i = idx; i < NUM_LISTS; i++){
         void *bp = free_lists[i];
         while (bp != NULL) {
             if (GET_SIZE(HDRP(bp)) >= asize)
@@ -376,12 +378,10 @@ void *extend_heap(size_t words)
 }
 
 int get_list_idx(size_t size) {
-    size_t exp = 0;
-    size_t p = 1;
-    if (size < 16) return -1;
-    while (p <= size / 2 && exp < 13) {
-        p *= 2;
-        exp++;
+    int idx = 0;
+    while ((idx < NUM_LISTS - 1) && (size > 1)) {
+        size >>= 1;
+        idx++;
     }
-    return exp - 4;
+    return idx;
 }
