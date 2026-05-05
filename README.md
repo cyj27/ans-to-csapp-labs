@@ -12,6 +12,7 @@ Currently, this repository contains my solutions for the following labs:
 * **Cache Lab**
 * **Shell Lab**
 * **Malloc Lab**
+* **Proxy Lab**
 
 ---
 
@@ -134,3 +135,36 @@ The following table compares the performance of the Segregated List version (wit
 | Footless Optimized (v2) | **97%** | **30.7** | **98/100** |
 
 Conclusion: The Footless design combined with a staged heap expansion policy (`INITCHUNKSIZE=64`, `CHUNKSIZE=4096`) achieves the optimal balance of memory efficiency and speed.
+
+---
+
+## Lab 7: Proxy Lab
+
+**Status:** Completed
+
+### Implementation Details
+
+This is a concurrent HTTP/1.0 proxy server with an LRU cache, implemented in three parts:
+
+1. **Part I — Sequential Proxy**:
+   - Accepts client HTTP GET requests, parses the URI to extract hostname, port, and path
+   - Forwards the request to the target server as HTTP/1.0
+   - Relays the server response back to the client
+   - Handles `SIGPIPE` gracefully to avoid crashes on broken connections
+
+2. **Part II — Thread-based Concurrency**:
+   - Uses `Pthread_create` to spawn a detached thread for each incoming connection
+   - Thread-safe design ensures the proxy can handle multiple clients concurrently
+
+3. **Part III — LRU Cache**:
+   - Thread-safe LRU (Least Recently Used) cache with a semaphore lock
+   - Doubly linked list for O(1) insertion/deletion/reordering
+   - Configurable limits: `MAX_CACHE_SIZE` = 1 MiB, `MAX_OBJECT_SIZE` = 100 KiB
+   - Automatic eviction of least-recently-used entries when space is insufficient
+
+### Key Design Decisions
+
+- All forwarded requests use HTTP/1.0 with `Connection: close` to simplify proxy logic
+- Fixed `User-Agent` header sent per lab specification
+- Client's `Host`, `Connection`, and `Proxy-Connection` headers are filtered and replaced
+- RIO (Robust I/O) functions used for all socket I/O to handle partial reads/writes
